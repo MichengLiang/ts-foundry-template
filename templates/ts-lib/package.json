@@ -3,10 +3,11 @@
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
+	"types": "./dist/index.d.mts",
 	"exports": {
 		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js"
+			"types": "./dist/index.d.mts",
+			"import": "./dist/index.mjs"
 		},
 		"./package.json": "./package.json"
 	},
@@ -19,7 +20,7 @@
 		"typecheck": "tsc --noEmit",
 		"test": "vitest run",
 		"test:coverage": "vitest run --coverage",
-		"pack:check": "pnpm build && publint && attw --pack .",
+		"pack:check": "pnpm build && publint && attw --pack . --profile esm-only",
 		"clean": "rm -rf dist coverage"
 	},
 	"devDependencies": {

@@ -46,8 +46,10 @@
 		"test:coverage": "turbo run test:coverage",
 		"e2e": "turbo run e2e",
 		"check": "pnpm lint && pnpm typecheck && pnpm test",
-		"check:full": "pnpm lint && pnpm typecheck && pnpm test:coverage && pnpm build && pnpm e2e && pnpm deps:check",
+		"check:full": "pnpm lint && pnpm typecheck && pnpm test:coverage && pnpm build && pnpm e2e && pnpm deps:check && pnpm pack:check && pnpm smoke:create-experiment",
 		"deps:check": "knip --no-config-hints && syncpack lint",
+		"pack:check": "turbo run pack:check",
+		"smoke:create-experiment": "vitest run scripts/create-experiment.test.ts --pool=forks",
 		"clean": "turbo run clean && rm -rf .turbo coverage playwright-report test-results",
 		"create:experiment": "tsx scripts/create-experiment.ts",
 		"changeset": "changeset",
@@ -76,7 +78,9 @@
 	"msw": {
 		"workerDirectory": [
 			"apps/web/public",
-			"templates/react-spa/public"
+			"apps/fullstack/public",
+			"templates/react-spa/public",
+			"templates/fullstack-hono-react/public"
 		]
 	}
 }

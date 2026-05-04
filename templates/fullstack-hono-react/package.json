@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "vite --host 127.0.0.1 --port 5174",
 		"build": "tsc --noEmit && vite build && tsdown --config tsdown.server.config.ts",
-		"preview": "vite preview --port 4174",
+		"preview": "PORT=${PORT:-4174} node dist/server/index.mjs",
 		"typecheck": "tsc --noEmit",
 		"test": "vitest run",
 		"test:coverage": "vitest run --coverage",

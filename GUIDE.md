@@ -355,7 +355,7 @@ tmp/
 
 They are ignored by Git and excluded from template copying.
 
-`public/mockServiceWorker.js` is also generated, but it is required for frontend templates that use MSW in the browser. Keep it in `apps/web/public` and `templates/react-spa/public`.
+`public/mockServiceWorker.js` is also generated, but it is required for frontend templates that use MSW in the browser. Keep it in `apps/web/public`, `apps/fullstack/public`, `templates/react-spa/public`, and `templates/fullstack-hono-react/public`.
 
 ## 17. Promoting Experiments
 
