@@ -229,7 +229,7 @@ Run `pnpm check:full` after changing root config, workspace dependencies, templa
 
 ## 15. Large Command Output
 
-Some repository commands intentionally produce large output. `pnpm check:full` can print hundreds or thousands of lines because it runs lint, typecheck, coverage, build, e2e, and dependency checks across many workspace packages.
+Some repository commands intentionally produce large output. Any command that fans out through Turbo, runs coverage, starts browsers, builds many packages, watches files, audits dependencies, or reproduces CI can print hundreds or thousands of lines.
 
 When a command may produce large output, redirect it to a local temporary log instead of dumping the full transcript into the terminal or chat:
 
@@ -245,7 +245,82 @@ tail -80 tmp/logs/check-full-*.log
 rg "No issues found|Tasks:|failed|error|ERR|ELIFECYCLE" tmp/logs/check-full-*.log
 ```
 
-Use the same pattern for other noisy commands, such as full builds, dependency audits, package publishing dry runs, or CI reproduction commands. The rule is simple: keep the raw log on disk, then search and summarize the evidence.
+The rule is simple: keep the raw log on disk, then search and summarize the evidence.
+
+### Commands That Should Usually Be Logged
+
+Use log redirection by default for these commands:
+
+| Command | Why it can be large | Suggested log |
+| :--- | :--- | :--- |
+| `pnpm check:full` | Runs lint, typecheck, coverage, build, e2e, and dependency checks across the workspace | `tmp/logs/check-full-<timestamp>.log` |
+| `pnpm check` | Runs lint, typecheck, and tests across many packages | `tmp/logs/check-<timestamp>.log` |
+| `pnpm build` | Turbo replays or prints build logs for all buildable packages; Vite and tsdown can be verbose | `tmp/logs/build-<timestamp>.log` |
+| `pnpm typecheck` | Turbo can print one TypeScript task per workspace package; failures can include long diagnostics | `tmp/logs/typecheck-<timestamp>.log` |
+| `pnpm test` | Vitest output grows with package count and failure detail | `tmp/logs/test-<timestamp>.log` |
+| `pnpm test:coverage` | Coverage tables are printed for every tested package | `tmp/logs/test-coverage-<timestamp>.log` |
+| `pnpm e2e` | Starts Vite servers and Playwright; browser failures can include long reports | `tmp/logs/e2e-<timestamp>.log` |
+| `pnpm deps:check` | Knip and syncpack can print long dependency, file, and catalog reports | `tmp/logs/deps-check-<timestamp>.log` |
+| `pnpm install` | Install resolution, peer warnings, lifecycle output, and lockfile changes can be long | `tmp/logs/install-<timestamp>.log` |
+| `pnpm release` | Changesets and npm publishing output can be long and high-stakes | `tmp/logs/release-<timestamp>.log` |
+
+### Package-Level Commands With Large Output Risk
+
+Use the same pattern when running these through `pnpm --filter ...`:
+
+| Command shape | Why it can be large |
+| :--- | :--- |
+| `pnpm --filter <pkg> build` | Vite and tsdown print bundle output; Vite may print chunk warnings |
+| `pnpm --filter <pkg> test` | Vitest failure output can include DOM snapshots, diffs, stack traces, and mock traces |
+| `pnpm --filter <pkg> test:coverage` | Coverage tables are always printed |
+| `pnpm --filter <pkg> e2e` | Playwright starts servers and can emit browser traces, screenshots, and reports |
+| `pnpm --filter <pkg> pack:check` | `publint` and `arethetypeswrong` can print package boundary reports |
+
+### Long-Running Commands
+
+Do not redirect persistent watch or dev servers unless you deliberately want a server log:
+
+| Command shape | Handling rule |
+| :--- | :--- |
+| `pnpm dev` | Long-running Turbo dev task; run in an interactive terminal or supervised background session |
+| `pnpm --filter <pkg> dev` | Vite dev server, tsdown watch, or tsx watch; keep the terminal visible while developing |
+| `tsdown --watch` | Watcher output can grow over time; stop it when finished |
+| `tsx watch ...` | Watcher output can grow over time; stop it when finished |
+| `vite --host ...` | Dev server output is persistent; only log it when debugging server startup |
+
+### Commands That Usually Do Not Need Logs
+
+These commands are normally small enough to run directly, unless the repository is already known to be noisy:
+
+| Command | Reason |
+| :--- | :--- |
+| `pnpm lint` | Biome is concise when clean |
+| `pnpm format` | Biome write mode is concise when clean |
+| `pnpm clean` | Removes generated files and prints little output |
+| `pnpm create:experiment <template> <name>` | Prints only the created target path |
+| `pnpm changeset` | Interactive command; use directly |
+
+### Reusable Log Pattern
+
+For a one-off large command:
+
+```bash
+mkdir -p tmp/logs
+log="tmp/logs/<name>-$(date +%Y%m%d-%H%M%S).log"
+<command> > "$log" 2>&1
+tail -80 "$log"
+rg "No issues found|Tasks:|passed|failed|error|ERR|ELIFECYCLE|warning" "$log"
+```
+
+For example:
+
+```bash
+mkdir -p tmp/logs
+log="tmp/logs/e2e-$(date +%Y%m%d-%H%M%S).log"
+pnpm e2e > "$log" 2>&1
+tail -80 "$log"
+rg "passed|failed|error|ERR|ELIFECYCLE" "$log"
+```
 
 `tmp/` is ignored by Git. Do not commit local command logs.
 
