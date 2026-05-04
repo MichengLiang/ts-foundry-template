@@ -227,7 +227,29 @@ Use these commands:
 
 Run `pnpm check:full` after changing root config, workspace dependencies, templates, shared packages, CI, hooks, or scripts.
 
-## 15. Generated Files
+## 15. Large Command Output
+
+Some repository commands intentionally produce large output. `pnpm check:full` can print hundreds or thousands of lines because it runs lint, typecheck, coverage, build, e2e, and dependency checks across many workspace packages.
+
+When a command may produce large output, redirect it to a local temporary log instead of dumping the full transcript into the terminal or chat:
+
+```bash
+mkdir -p tmp/logs
+pnpm check:full > tmp/logs/check-full-$(date +%Y%m%d-%H%M%S).log 2>&1
+```
+
+Then inspect the log with targeted commands:
+
+```bash
+tail -80 tmp/logs/check-full-*.log
+rg "No issues found|Tasks:|failed|error|ERR|ELIFECYCLE" tmp/logs/check-full-*.log
+```
+
+Use the same pattern for other noisy commands, such as full builds, dependency audits, package publishing dry runs, or CI reproduction commands. The rule is simple: keep the raw log on disk, then search and summarize the evidence.
+
+`tmp/` is ignored by Git. Do not commit local command logs.
+
+## 16. Generated Files
 
 These are generated artifacts:
 
@@ -238,13 +260,14 @@ dist/
 coverage/
 playwright-report/
 test-results/
+tmp/
 ```
 
 They are ignored by Git and excluded from template copying.
 
 `public/mockServiceWorker.js` is also generated, but it is required for frontend templates that use MSW in the browser. Keep it in `apps/web/public` and `templates/react-spa/public`.
 
-## 16. Promoting Experiments
+## 17. Promoting Experiments
 
 Most work starts in `experiments/`. Promote only when the object becomes stable:
 
@@ -260,7 +283,7 @@ Before promotion, confirm:
 - no generated artifacts are copied;
 - `pnpm check:full` passes.
 
-## 17. Using This as a GitHub Template
+## 18. Using This as a GitHub Template
 
 After pushing to GitHub, mark the repository as a template:
 
@@ -283,7 +306,7 @@ gh repo edit --template
 
 The repository should be public and licensed under Apache-2.0. The root package remains `private: true` to prevent accidental npm publication of the whole monorepo.
 
-## 18. Updating Dependencies
+## 19. Updating Dependencies
 
 Renovate is configured for grouped dependency updates. When updating manually:
 
@@ -294,7 +317,7 @@ Renovate is configured for grouped dependency updates. When updating manually:
 
 Do not update the same dependency independently in multiple package manifests.
 
-## 19. Adding a New Template
+## 20. Adding a New Template
 
 Only add a new template when it represents a repeatable project object. A one-off experiment belongs in `experiments/`.
 
@@ -309,7 +332,7 @@ When adding a template:
 
 Do not add database, deployment, SSR, or production infrastructure templates to this mother template unless the object boundary is deliberately changed.
 
-## 20. Troubleshooting
+## 21. Troubleshooting
 
 If `pnpm install` fails, check Node and pnpm versions first.
 
@@ -321,7 +344,7 @@ If Playwright fails because a server is not ready, inspect the package e2e scrip
 
 If Vite reports a chunk size warning during build, treat it as a warning unless the command exits non-zero. The frontend hello world intentionally pulls together several real frontend libraries to prove the default stack works.
 
-## 21. Read the Stable Docs
+## 22. Read the Stable Docs
 
 For deeper rules, read:
 

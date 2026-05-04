@@ -11,5 +11,6 @@ dist-ssr
 .env
 .cache
 docs/tmp
+tmp
 server/dist
 public/dist
