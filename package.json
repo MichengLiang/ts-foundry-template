@@ -4,6 +4,19 @@
 	"description": "Modern TypeScript monorepo template for frontend, backend, fullstack, CLI, and library experiments.",
 	"private": true,
 	"license": "Apache-2.0",
+	"author": {
+		"name": "弥澄亮",
+		"email": "t103ooooo@stu.mju.edu.cn",
+		"url": "https://github.com/MichengLiang"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+ssh://git@github.com/MichengLiang/ts-foundry-template.git"
+	},
+	"bugs": {
+		"url": "https://github.com/MichengLiang/ts-foundry-template/issues"
+	},
+	"homepage": "https://github.com/MichengLiang/ts-foundry-template#readme",
 	"type": "module",
 	"keywords": [
 		"typescript",
