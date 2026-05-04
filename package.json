@@ -1,0 +1,69 @@
+{
+	"name": "ts-foundry-template",
+	"version": "0.0.0",
+	"description": "Modern TypeScript monorepo template for frontend, backend, fullstack, CLI, and library experiments.",
+	"private": true,
+	"license": "Apache-2.0",
+	"type": "module",
+	"keywords": [
+		"typescript",
+		"monorepo",
+		"template",
+		"pnpm",
+		"turborepo",
+		"react",
+		"hono",
+		"vite",
+		"vitest",
+		"playwright",
+		"biome"
+	],
+	"packageManager": "pnpm@10.33.0",
+	"engines": {
+		"node": ">=24.0.0",
+		"pnpm": ">=10.0.0"
+	},
+	"scripts": {
+		"build": "turbo run build",
+		"dev": "turbo run dev",
+		"typecheck": "turbo run typecheck",
+		"lint": "biome check .",
+		"format": "biome check --write .",
+		"test": "turbo run test",
+		"test:coverage": "turbo run test:coverage",
+		"e2e": "turbo run e2e",
+		"check": "pnpm lint && pnpm typecheck && pnpm test",
+		"check:full": "pnpm lint && pnpm typecheck && pnpm test:coverage && pnpm build && pnpm e2e && pnpm deps:check",
+		"deps:check": "knip --no-config-hints && syncpack lint",
+		"clean": "turbo run clean && rm -rf .turbo coverage playwright-report test-results",
+		"create:experiment": "tsx scripts/create-experiment.ts",
+		"changeset": "changeset",
+		"release": "changeset version && changeset publish"
+	},
+	"devDependencies": {
+		"@arethetypeswrong/cli": "catalog:",
+		"@biomejs/biome": "catalog:",
+		"@changesets/cli": "catalog:",
+		"@playwright/test": "catalog:",
+		"@testing-library/dom": "catalog:",
+		"@vitest/coverage-v8": "catalog:",
+		"happy-dom": "catalog:",
+		"knip": "catalog:",
+		"lefthook": "catalog:",
+		"playwright": "catalog:",
+		"publint": "catalog:",
+		"start-server-and-test": "catalog:",
+		"syncpack": "catalog:",
+		"tsdown": "catalog:",
+		"tsx": "catalog:",
+		"turbo": "catalog:",
+		"typescript": "catalog:",
+		"vitest": "catalog:"
+	},
+	"msw": {
+		"workerDirectory": [
+			"apps/web/public",
+			"templates/react-spa/public"
+		]
+	}
+}

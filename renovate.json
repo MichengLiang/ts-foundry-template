@@ -1,0 +1,38 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["config:recommended"],
+	"packageRules": [
+		{
+			"matchPackageNames": ["typescript", "tsx", "tsdown"],
+			"groupName": "typescript toolchain"
+		},
+		{
+			"matchPackagePatterns": [
+				"^@biomejs/",
+				"^vitest",
+				"^@vitest/",
+				"^playwright",
+				"^@playwright/",
+				"^msw$",
+				"^@testing-library/"
+			],
+			"groupName": "quality and test stack"
+		},
+		{
+			"matchPackagePatterns": [
+				"^react",
+				"^@tanstack/",
+				"^tailwindcss$",
+				"^@tailwindcss/",
+				"^motion$",
+				"^vite$",
+				"^@vitejs/"
+			],
+			"groupName": "frontend stack"
+		},
+		{
+			"matchPackagePatterns": ["^hono$", "^@hono/"],
+			"groupName": "backend stack"
+		}
+	]
+}

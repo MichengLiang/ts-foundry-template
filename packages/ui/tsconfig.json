@@ -1,0 +1,10 @@
+{
+	"extends": "@ts-foundry/tsconfig/react",
+	"include": [
+		"src",
+		"playground",
+		"tsdown.config.ts",
+		"vite.config.ts",
+		"vitest.config.ts"
+	]
+}

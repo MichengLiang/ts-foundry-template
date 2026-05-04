@@ -1,0 +1,28 @@
+{
+	"name": "@ts-foundry/test-utils",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"scripts": {
+		"build": "tsdown",
+		"dev": "tsdown --watch",
+		"typecheck": "tsc --noEmit",
+		"test": "vitest run",
+		"test:coverage": "vitest run --coverage",
+		"clean": "rm -rf dist coverage"
+	},
+	"dependencies": {
+		"@faker-js/faker": "catalog:",
+		"@ts-foundry/contracts": "workspace:*",
+		"msw": "catalog:"
+	},
+	"devDependencies": {
+		"@ts-foundry/tsconfig": "workspace:*",
+		"tsdown": "catalog:",
+		"typescript": "catalog:",
+		"vitest": "catalog:"
+	}
+}

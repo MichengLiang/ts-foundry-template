@@ -1,0 +1,41 @@
+{
+	"$schema": "https://unpkg.com/knip@6/schema.json",
+	"entry": [
+		"scripts/create-experiment.ts",
+		"apps/*/src/main.tsx",
+		"apps/*/src/index.ts",
+		"packages/*/src/index.ts",
+		"templates/*/src/main.tsx",
+		"templates/*/src/index.ts"
+	],
+	"project": [
+		"**/*.{ts,tsx}",
+		"!**/dist/**",
+		"!**/coverage/**",
+		"!**/playwright-report/**",
+		"!**/test-results/**"
+	],
+	"ignoreFiles": [
+		"**/coverage/**",
+		"**/playwright-report/**",
+		"**/test-results/**",
+		"**/public/mockServiceWorker.js"
+	],
+	"ignoreDependencies": [
+		"@arethetypeswrong/cli",
+		"@biomejs/biome",
+		"@changesets/cli",
+		"@testing-library/dom",
+		"@vitest/coverage-v8",
+		"knip",
+		"lefthook",
+		"playwright",
+		"publint",
+		"start-server-and-test",
+		"syncpack",
+		"tailwindcss",
+		"tsdown",
+		"turbo"
+	],
+	"ignoreUnresolved": ["vite/client"]
+}

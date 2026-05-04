@@ -1,0 +1,13 @@
+{
+	"name": "@ts-foundry/tsconfig",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./base": "./base.json",
+		"./react": "./react.json",
+		"./node": "./node.json",
+		"./lib": "./lib.json",
+		"./test": "./test.json"
+	}
+}
