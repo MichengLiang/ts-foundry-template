@@ -261,7 +261,10 @@ Use log redirection by default for these commands:
 | `pnpm test:coverage` | Coverage tables are printed for every tested package | `tmp/logs/test-coverage-<timestamp>.log` |
 | `pnpm e2e` | Starts Vite servers and Playwright; browser failures can include long reports | `tmp/logs/e2e-<timestamp>.log` |
 | `pnpm deps:check` | Knip and syncpack can print long dependency, file, and catalog reports | `tmp/logs/deps-check-<timestamp>.log` |
+| `pnpm lint` | Biome is concise when clean, but a repository-wide failure can print many file diagnostics | `tmp/logs/lint-<timestamp>.log` |
+| `pnpm format` | Bulk formatting can print a long changed-file list after generated or template-wide edits | `tmp/logs/format-<timestamp>.log` |
 | `pnpm install` | Install resolution, peer warnings, lifecycle output, and lockfile changes can be long | `tmp/logs/install-<timestamp>.log` |
+| `pnpm exec playwright install --with-deps chromium` | Browser and system dependency installation can print long package-manager logs | `tmp/logs/playwright-install-<timestamp>.log` |
 | `pnpm release` | Changesets and npm publishing output can be long and high-stakes | `tmp/logs/release-<timestamp>.log` |
 
 ### Package-Level Commands With Large Output Risk
@@ -271,6 +274,7 @@ Use the same pattern when running these through `pnpm --filter ...`:
 | Command shape | Why it can be large |
 | :--- | :--- |
 | `pnpm --filter <pkg> build` | Vite and tsdown print bundle output; Vite may print chunk warnings |
+| `pnpm --filter <pkg> typecheck` | TypeScript failures can include long nested diagnostics |
 | `pnpm --filter <pkg> test` | Vitest failure output can include DOM snapshots, diffs, stack traces, and mock traces |
 | `pnpm --filter <pkg> test:coverage` | Coverage tables are always printed |
 | `pnpm --filter <pkg> e2e` | Playwright starts servers and can emit browser traces, screenshots, and reports |
@@ -284,9 +288,22 @@ Do not redirect persistent watch or dev servers unless you deliberately want a s
 | :--- | :--- |
 | `pnpm dev` | Long-running Turbo dev task; run in an interactive terminal or supervised background session |
 | `pnpm --filter <pkg> dev` | Vite dev server, tsdown watch, or tsx watch; keep the terminal visible while developing |
+| `pnpm --filter <pkg> preview` | Vite preview server is persistent; keep it visible or write an explicit server log |
+| `pnpm --filter <pkg> start` | Node server output can grow with requests; log it only when debugging runtime behavior |
+| `pnpm --filter @ts-foundry/ui play` | UI playground dev server is persistent; keep the terminal visible while designing components |
 | `tsdown --watch` | Watcher output can grow over time; stop it when finished |
 | `tsx watch ...` | Watcher output can grow over time; stop it when finished |
 | `vite --host ...` | Dev server output is persistent; only log it when debugging server startup |
+
+### GitHub Actions and CI Debug Commands
+
+These are not package scripts, but they are common when maintaining this template and can produce very large output:
+
+| Command | Why it can be large | Suggested log |
+| :--- | :--- | :--- |
+| `gh run watch <run-id> --exit-status` | Streams every CI job update until completion | `tmp/logs/gh-run-<run-id>-watch.log` |
+| `gh run view <run-id> --log` | Downloads full GitHub Actions logs for every step | `tmp/logs/gh-run-<run-id>.log` |
+| `gh run view <run-id> --log-failed` | Smaller than full logs, but failed Playwright, pnpm, or build steps can still be long | `tmp/logs/gh-run-<run-id>-failed.log` |
 
 ### Commands That Usually Do Not Need Logs
 
@@ -294,8 +311,6 @@ These commands are normally small enough to run directly, unless the repository 
 
 | Command | Reason |
 | :--- | :--- |
-| `pnpm lint` | Biome is concise when clean |
-| `pnpm format` | Biome write mode is concise when clean |
 | `pnpm clean` | Removes generated files and prints little output |
 | `pnpm create:experiment <template> <name>` | Prints only the created target path |
 | `pnpm changeset` | Interactive command; use directly |
