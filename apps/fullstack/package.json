@@ -17,6 +17,7 @@
 		"@tailwindcss/vite": "catalog:",
 		"@tanstack/react-query": "catalog:",
 		"@ts-foundry/contracts": "workspace:*",
+		"@ts-foundry/ui": "workspace:*",
 		"hono": "catalog:",
 		"react": "catalog:",
 		"react-dom": "catalog:",

@@ -9,7 +9,31 @@ import {
 	useParams,
 } from "@tanstack/react-router";
 import { CreateItemSchema } from "@ts-foundry/contracts";
-import { Button } from "@ts-foundry/ui";
+import {
+	Alert,
+	AlertDescription,
+	AlertTitle,
+	Badge,
+	Button,
+	buttonVariants,
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+	Form,
+	FormControl,
+	FormDescription,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+	Input,
+	ModeToggle,
+	Separator,
+	Skeleton,
+	toast,
+} from "@ts-foundry/ui";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { createRemoteItem, fetchItems } from "./api";
@@ -20,14 +44,19 @@ type CreateItemForm = {
 
 function RootLayout() {
 	return (
-		<main className="mx-auto flex min-h-screen max-w-4xl flex-col gap-8 px-6 py-10">
-			<header className="border-slate-200 border-b pb-5">
-				<Link className="font-semibold text-slate-950 text-xl" to="/">
-					TS Foundry Web
-				</Link>
+		<div className="min-h-screen bg-background">
+			<header className="border-b bg-background/95">
+				<div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
+					<Link className="font-semibold text-foreground text-sm" to="/">
+						TS Foundry Web
+					</Link>
+					<ModeToggle />
+				</div>
 			</header>
-			<Outlet />
-		</main>
+			<main className="mx-auto max-w-5xl px-6 py-8">
+				<Outlet />
+			</main>
+		</div>
 	);
 }
 
@@ -40,9 +69,13 @@ function HomePage() {
 	});
 	const createItem = useMutation({
 		mutationFn: (values: CreateItemForm) => createRemoteItem(values.name),
-		onSuccess: async () => {
+		onSuccess: async (item) => {
+			toast.success(`Created ${item.name}`);
 			form.reset();
 			await queryClient.invalidateQueries({ queryKey: ["items"] });
+		},
+		onError: () => {
+			toast.error("Unable to create item");
 		},
 	});
 
@@ -52,52 +85,122 @@ function HomePage() {
 			className="grid gap-6"
 			initial={{ opacity: 0, y: 8 }}
 		>
-			<div>
-				<h1 className="font-semibold text-3xl text-slate-950">
+			<section className="grid gap-2">
+				<Badge className="w-fit" variant="secondary">
+					React SPA
+				</Badge>
+				<h1 className="font-semibold text-3xl tracking-normal">
 					React workspace hello world
 				</h1>
-				<p className="mt-2 text-slate-600">
-					React, TanStack Router, Query, RHF, Zod, Tailwind, Motion, MSW.
+				<p className="max-w-2xl text-muted-foreground">
+					React, TanStack Router, Query, RHF, Zod, Tailwind, shadcn/ui, Motion,
+					MSW.
 				</p>
+			</section>
+
+			<div className="grid gap-6 lg:grid-cols-[360px_1fr]">
+				<Card>
+					<CardHeader>
+						<CardTitle>Create item</CardTitle>
+						<CardDescription>
+							React Hook Form validates the shared Zod contract.
+						</CardDescription>
+					</CardHeader>
+					<CardContent>
+						<Form {...form}>
+							<form
+								className="grid gap-4"
+								onSubmit={form.handleSubmit((values) =>
+									createItem.mutate(values),
+								)}
+							>
+								<FormField
+									control={form.control}
+									name="name"
+									render={({ field }) => (
+										<FormItem>
+											<FormLabel>Item name</FormLabel>
+											<FormControl>
+												<Input placeholder="Gamma" {...field} />
+											</FormControl>
+											<FormDescription>
+												Enter at least one visible character.
+											</FormDescription>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								<Button disabled={createItem.isPending} type="submit">
+									Create item
+								</Button>
+							</form>
+						</Form>
+					</CardContent>
+				</Card>
+
+				<Card>
+					<CardHeader>
+						<CardTitle>Items</CardTitle>
+						<CardDescription>
+							MSW backs this browser path in development and tests.
+						</CardDescription>
+					</CardHeader>
+					<CardContent>
+						{items.isLoading ? (
+							<div
+								className="grid gap-3"
+								aria-label="Loading items"
+								role="status"
+							>
+								<Skeleton className="h-12 w-full" />
+								<Skeleton className="h-12 w-full" />
+								<Skeleton className="h-12 w-full" />
+							</div>
+						) : null}
+						{items.isError ? (
+							<Alert variant="destructive">
+								<AlertTitle>Unable to load items</AlertTitle>
+								<AlertDescription>
+									The item API request did not complete successfully.
+								</AlertDescription>
+							</Alert>
+						) : null}
+						{items.data ? (
+							<ul className="grid gap-2">
+								{items.data.map((item) => (
+									<li
+										className="flex items-center justify-between gap-3 rounded-md border bg-card p-3"
+										key={item.id}
+									>
+										<div className="grid gap-1">
+											<Link
+												className="font-medium text-foreground hover:underline"
+												params={{ itemId: item.id }}
+												to="/items/$itemId"
+											>
+												{item.name}
+											</Link>
+											<Badge className="w-fit" variant="outline">
+												{item.id}
+											</Badge>
+										</div>
+										<Link
+											className={buttonVariants({
+												variant: "outline",
+												size: "sm",
+											})}
+											params={{ itemId: item.id }}
+											to="/items/$itemId"
+										>
+											Open
+										</Link>
+									</li>
+								))}
+							</ul>
+						) : null}
+					</CardContent>
+				</Card>
 			</div>
-
-			<form
-				className="flex flex-col gap-3 rounded-md border border-slate-200 p-4"
-				onSubmit={form.handleSubmit((values) => createItem.mutate(values))}
-			>
-				<label className="font-medium text-slate-800" htmlFor="name">
-					Item name
-				</label>
-				<input
-					className="rounded-md border border-slate-300 px-3 py-2"
-					id="name"
-					{...form.register("name")}
-				/>
-				{form.formState.errors.name ? (
-					<p className="text-red-700 text-sm">
-						{form.formState.errors.name.message}
-					</p>
-				) : null}
-				<Button disabled={createItem.isPending} type="submit">
-					Create item
-				</Button>
-			</form>
-
-			{items.isLoading ? <p>Loading items</p> : null}
-			{items.isError ? <p role="alert">Unable to load items</p> : null}
-			<ul className="grid gap-2">
-				{items.data?.map((item) => (
-					<li className="rounded-md border border-slate-200 p-3" key={item.id}>
-						<Link
-							className="font-medium text-blue-700"
-							params={{ itemId: item.id }}
-							to="/items/$itemId"
-						>
-							{item.name}
-						</Link>
-					</li>
-				))}
-			</ul>
 		</motion.section>
 	);
 }
@@ -108,12 +211,53 @@ function ItemPage() {
 	const item = items.data?.find((candidate) => candidate.id === itemId);
 
 	return (
-		<section className="grid gap-3">
-			<Link className="text-blue-700" to="/">
+		<section className="grid gap-4">
+			<Link
+				className={buttonVariants({ variant: "outline", size: "sm" })}
+				to="/"
+			>
 				Back
 			</Link>
-			<h1 className="font-semibold text-2xl">{item?.name ?? itemId}</h1>
-			<p className="text-slate-600">Route parameter: {itemId}</p>
+			<Card>
+				<CardHeader>
+					<div className="flex items-center gap-2">
+						<CardTitle>
+							<h2>{item?.name ?? itemId}</h2>
+						</CardTitle>
+						<Badge variant="secondary">{itemId}</Badge>
+					</div>
+					<CardDescription>
+						Detail route backed by TanStack Router params.
+					</CardDescription>
+				</CardHeader>
+				<CardContent className="grid gap-4">
+					{items.isLoading ? <Skeleton className="h-16 w-full" /> : null}
+					{items.isError ? (
+						<Alert variant="destructive">
+							<AlertTitle>Unable to load item</AlertTitle>
+							<AlertDescription>
+								The detail page could not read the item list.
+							</AlertDescription>
+						</Alert>
+					) : null}
+					{items.data && !item ? (
+						<Alert>
+							<AlertTitle>Item not found</AlertTitle>
+							<AlertDescription>
+								No item matched this route parameter.
+							</AlertDescription>
+						</Alert>
+					) : null}
+					{item ? (
+						<div className="grid gap-3">
+							<Separator />
+							<p className="text-muted-foreground text-sm">
+								Route parameter: {itemId}
+							</p>
+						</div>
+					) : null}
+				</CardContent>
+			</Card>
 		</section>
 	);
 }
