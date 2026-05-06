@@ -12,7 +12,9 @@ describe("web app", () => {
 				name: "React workspace hello world",
 			}),
 		).toBeInTheDocument();
-		expect(screen.getByRole("textbox", { name: "Item name" })).toBeVisible();
+		expect(
+			screen.getByRole("textbox", { name: "Item name" }),
+		).toBeInTheDocument();
 		expect(screen.getByRole("button", { name: "Create item" })).toBeVisible();
 		expect(await screen.findByRole("link", { name: "Alpha" })).toBeVisible();
 		expect(screen.getByRole("button", { name: "Toggle theme" })).toBeVisible();
