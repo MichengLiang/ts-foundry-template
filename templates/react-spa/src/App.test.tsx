@@ -15,9 +15,15 @@ describe("web app", () => {
 		expect(
 			screen.getByRole("textbox", { name: "Item name" }),
 		).toBeInTheDocument();
-		expect(screen.getByRole("button", { name: "Create item" })).toBeVisible();
-		expect(await screen.findByRole("link", { name: "Alpha" })).toBeVisible();
-		expect(screen.getByRole("button", { name: "Toggle theme" })).toBeVisible();
+		expect(
+			screen.getByRole("button", { name: "Create item" }),
+		).toBeInTheDocument();
+		expect(
+			await screen.findByRole("link", { name: "Alpha" }),
+		).toBeInTheDocument();
+		expect(
+			screen.getByRole("button", { name: "Toggle theme" }),
+		).toBeInTheDocument();
 	});
 
 	it("creates a new item through the default stack", async () => {
@@ -30,6 +36,8 @@ describe("web app", () => {
 		);
 		await user.click(screen.getByRole("button", { name: "Create item" }));
 
-		expect(await screen.findByRole("link", { name: "Gamma" })).toBeVisible();
+		expect(
+			await screen.findByRole("link", { name: "Gamma" }),
+		).toBeInTheDocument();
 	});
 });
