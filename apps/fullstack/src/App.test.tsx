@@ -11,5 +11,8 @@ describe("fullstack app", () => {
 		).toBeVisible();
 		expect(await screen.findByText("Fullstack Alpha")).toBeInTheDocument();
 		expect(screen.getByRole("button", { name: "Toggle theme" })).toBeVisible();
+		expect(
+			screen.getByRole("region", { name: "Notifications alt+T" }),
+		).toBeVisible();
 	});
 });

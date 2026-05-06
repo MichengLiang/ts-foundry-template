@@ -18,6 +18,7 @@ import {
 	Separator,
 	Skeleton,
 	ThemeProvider,
+	Toaster,
 } from "@ts-foundry/ui";
 
 const queryClient = new QueryClient();
@@ -111,6 +112,7 @@ export function App() {
 		<ThemeProvider defaultTheme="system" storageKey="ts-foundry-theme">
 			<QueryClientProvider client={queryClient}>
 				<FullstackHome />
+				<Toaster />
 			</QueryClientProvider>
 		</ThemeProvider>
 	);
