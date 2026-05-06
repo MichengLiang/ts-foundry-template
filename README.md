@@ -2,7 +2,7 @@
 
 `ts-foundry-template` is a modern TypeScript monorepo template for repeatable frontend, backend, fullstack, CLI, and library experiments.
 
-它不是一个业务应用，也不是一个框架集合。它是一个工程母版：把 pnpm workspace、Turborepo、TypeScript strict、Biome、Vitest、Playwright、MSW、Knip、syncpack、Lefthook、Renovate、React、Hono、TanStack、Tailwind CSS 和 tsdown 组合成一套可复制、可验证、可长期维护的默认工作区。
+它不是一个业务应用，也不是一个框架集合。它是一个工程母版：把 pnpm workspace、Turborepo、TypeScript strict、Biome、Vitest、Playwright、MSW、Knip、syncpack、Lefthook、Renovate、React、Hono、TanStack、Tailwind CSS、shadcn/ui 和 tsdown 组合成一套可复制、可验证、可长期维护的默认工作区。
 
 ## Start Here
 
@@ -40,7 +40,7 @@ pnpm create:experiment ts-lib text-utils
 - `packages/tsconfig`: shared TypeScript configs.
 - `packages/contracts`: Zod contracts and shared API schemas.
 - `packages/test-utils`: faker and MSW test helpers.
-- `packages/ui`: minimal React UI package.
+- `packages/ui`: shadcn/ui-based React UI foundation with Tailwind CSS v4 tokens, theme support, and shared components.
 - `packages/utils`: runtime-neutral TypeScript utilities.
 - `packages/node-utils`: Node-only utilities.
 
@@ -67,6 +67,7 @@ pnpm create:experiment ts-lib text-utils
 - [docs/环境配置清单.md](./docs/环境配置清单.md): toolchain inventory.
 - [docs/质量门禁.md](./docs/质量门禁.md): quality gates.
 - [docs/项目模板说明.md](./docs/项目模板说明.md): template descriptions.
+- [docs/TS Foundry Frontend UI Foundation 设计文档.md](./docs/TS%20Foundry%20Frontend%20UI%20Foundation%20设计文档.md): frontend UI foundation implementation specification.
 
 ## Non-goals
 

@@ -134,7 +134,17 @@ pnpm --filter @ts-foundry-experiment/table-demo test
 pnpm --filter @ts-foundry-experiment/table-demo e2e
 ```
 
-The React SPA template includes TanStack Router, TanStack Query, React Hook Form, Zod, Tailwind CSS v4, Motion, MSW, Testing Library, Vitest, and Playwright. It is meant for browser UI work, not backend services.
+The React SPA template includes TanStack Router, TanStack Query, React Hook Form, Zod, Tailwind CSS v4, shadcn/ui, `@ts-foundry/ui`, Motion, MSW, Testing Library, Vitest, and Playwright. It is meant for browser UI work, not backend services.
+
+## 8.1 Working With The Frontend UI Foundation
+
+`@ts-foundry/ui` is the shared UI foundation for React frontend and fullstack React templates. It owns shadcn/ui-based 基础组件、Tailwind CSS v4 token、theme support 和 accessible primitives.
+
+基础组件属于 `packages/ui/src/components`。共享 hooks 属于 `packages/ui/src/hooks`。共享样式 token 属于 `packages/ui/src/styles/globals.css`。App-specific 组合组件属于具体 app/template，不进入 `packages/ui`。
+
+Frontend app/template 必须导入 `@ts-foundry/ui/styles.css`，并通过 shadcn monorepo `components.json` 指向共享 UI package。新增 shadcn 基础组件时，保持 `packages/ui`、`apps/web`、`apps/fullstack`、`templates/react-spa` 和 `templates/fullstack-hono-react` 的 `components.json` 坐标一致。
+
+The authoritative implementation specification is [docs/TS Foundry Frontend UI Foundation 设计文档.md](./docs/TS%20Foundry%20Frontend%20UI%20Foundation%20设计文档.md). Changes to `packages/ui`, frontend template CSS, shadcn `components.json`, frontend dependencies, or UI foundation docs require `pnpm check:full`.
 
 ## 9. Working on a Backend API Experiment
 
@@ -443,3 +453,4 @@ For deeper rules, read:
 - [docs/环境配置清单.md](./docs/环境配置清单.md)
 - [docs/质量门禁.md](./docs/质量门禁.md)
 - [docs/项目模板说明.md](./docs/项目模板说明.md)
+- [docs/TS Foundry Frontend UI Foundation 设计文档.md](./docs/TS%20Foundry%20Frontend%20UI%20Foundation%20设计文档.md)
