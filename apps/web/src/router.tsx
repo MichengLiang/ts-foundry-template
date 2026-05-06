@@ -13,14 +13,17 @@ import {
 	Alert,
 	AlertDescription,
 	AlertTitle,
-	Badge,
-	Button,
-	buttonVariants,
+} from "@ts-foundry/ui/components/alert";
+import { Badge } from "@ts-foundry/ui/components/badge";
+import { Button, buttonVariants } from "@ts-foundry/ui/components/button";
+import {
 	Card,
 	CardContent,
 	CardDescription,
 	CardHeader,
 	CardTitle,
+} from "@ts-foundry/ui/components/card";
+import {
 	Form,
 	FormControl,
 	FormDescription,
@@ -28,12 +31,12 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-	Input,
-	ModeToggle,
-	Separator,
-	Skeleton,
-	toast,
-} from "@ts-foundry/ui";
+} from "@ts-foundry/ui/components/form";
+import { Input } from "@ts-foundry/ui/components/input";
+import { Separator } from "@ts-foundry/ui/components/separator";
+import { Skeleton } from "@ts-foundry/ui/components/skeleton";
+import { toast } from "@ts-foundry/ui/components/sonner";
+import { ModeToggle } from "@ts-foundry/ui/mode-toggle";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { createRemoteItem, fetchItems } from "./api";

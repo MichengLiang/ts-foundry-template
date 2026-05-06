@@ -8,18 +8,20 @@ import {
 	Alert,
 	AlertDescription,
 	AlertTitle,
-	Badge,
+} from "@ts-foundry/ui/components/alert";
+import { Badge } from "@ts-foundry/ui/components/badge";
+import {
 	Card,
 	CardContent,
 	CardDescription,
 	CardHeader,
 	CardTitle,
-	ModeToggle,
-	Separator,
-	Skeleton,
-	ThemeProvider,
-	Toaster,
-} from "@ts-foundry/ui";
+} from "@ts-foundry/ui/components/card";
+import { Separator } from "@ts-foundry/ui/components/separator";
+import { Skeleton } from "@ts-foundry/ui/components/skeleton";
+import { Toaster } from "@ts-foundry/ui/components/sonner";
+import { ModeToggle } from "@ts-foundry/ui/mode-toggle";
+import { ThemeProvider } from "@ts-foundry/ui/theme-provider";
 
 const queryClient = new QueryClient();
 
