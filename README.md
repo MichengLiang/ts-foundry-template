@@ -1,23 +1,47 @@
 # TS Foundry Template
 
-`ts-foundry-template` is a modern TypeScript monorepo template for repeatable frontend, backend, fullstack, CLI, and library experiments.
+English | [中文](./README.zh.md)
 
-它不是一个业务应用，也不是一个框架集合。它是一个工程母版：把 pnpm workspace、Turborepo、TypeScript strict、Biome、Vitest、Playwright、MSW、Knip、syncpack、Lefthook、Renovate、React、Hono、TanStack、Tailwind CSS、shadcn/ui 和 tsdown 组合成一套可复制、可验证、可长期维护的默认工作区。
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue)](./LICENSE)
+[![Node](https://img.shields.io/badge/node-%3E%3D24-339933?logo=node.js&logoColor=white)](https://nodejs.org)
+[![pnpm](https://img.shields.io/badge/pnpm-%3E%3D10-F69220?logo=pnpm&logoColor=white)](https://pnpm.io)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Biome](https://img.shields.io/badge/formatter-Biome-60A5FA?logo=biome&logoColor=white)](https://biomejs.dev)
 
-## Start Here
+A batteries-included TypeScript monorepo template for frontend, backend, fullstack, CLI, and library experiments.
 
-Read [GUIDE.md](./GUIDE.md) first. It explains how to choose a template, create experiments, run quality gates, maintain dependencies, and use this repository as a GitHub template.
+Use it to skip the first-day engineering decisions — workspace layout, task orchestration, type safety, testing, linting, dependency governance, and template replication — and start building on a proven, long-lived foundation.
+
+> **Not** a framework, not a product, not a deployment recipe.
+> It is an engineering mother template: copy it, create an experiment, build something real.
+
+---
+
+## Table of Contents
+
+- [Quick Start](#quick-start)
+- [Templates](#templates)
+- [Repository Layout](#repository-layout)
+- [Included Packages](#included-packages)
+- [Commands](#commands)
+- [Quality Gates](#quality-gates)
+- [Using as a GitHub Template](#using-as-a-github-template)
+- [Non-Goals](#non-goals)
+- [Documentation](#documentation)
+- [License](#license)
 
 ## Quick Start
+
+**Prerequisites:** Node >= 24, pnpm >= 10 (managed via Corepack).
 
 ```bash
 corepack enable
 pnpm install
-pnpm check
-pnpm check:full
+pnpm check          # local quality gate
+pnpm check:full     # CI-level quality gate
 ```
 
-Create a new experiment from a template:
+Create an experiment from a template:
 
 ```bash
 pnpm create:experiment react-spa ui-demo
@@ -27,52 +51,134 @@ pnpm create:experiment node-cli rename-files
 pnpm create:experiment ts-lib text-utils
 ```
 
-## What Is Included
+Read [GUIDE.md](./GUIDE.md) for the full workflow.
 
-- `apps/web`: React + Vite SPA sample.
-- `apps/api`: Hono API sample.
-- `apps/fullstack`: React + Hono + shared contracts sample.
-- `templates/react-spa`: frontend experiment template.
-- `templates/hono-api`: backend API template.
-- `templates/fullstack-hono-react`: fullstack experiment template.
-- `templates/node-cli`: Node CLI template.
-- `templates/ts-lib`: TypeScript library template.
-- `packages/tsconfig`: shared TypeScript configs.
-- `packages/contracts`: Zod contracts and shared API schemas.
-- `packages/test-utils`: faker and MSW test helpers.
-- `packages/ui`: shadcn/ui-based React UI foundation with Tailwind CSS v4 tokens, theme support, and shared components.
-- `packages/utils`: runtime-neutral TypeScript utilities.
-- `packages/node-utils`: Node-only utilities.
+## Templates
 
-## Main Commands
+Each template is a copyable starting point for a specific project shape. Choose the smallest one that fits.
+
+| Goal | Template | Command |
+| :--- | :--- | :--- |
+| React SPA, UI demo, frontend tool | `react-spa` | `pnpm create:experiment react-spa <name>` |
+| Hono API, webhook, backend service | `hono-api` | `pnpm create:experiment hono-api <name>` |
+| React + Hono fullstack with shared contracts | `fullstack` | `pnpm create:experiment fullstack <name>` |
+| Node CLI tool | `node-cli` | `pnpm create:experiment node-cli <name>` |
+| Reusable TypeScript library | `ts-lib` | `pnpm create:experiment ts-lib <name>` |
+
+## Repository Layout
+
+```text
+apps/           runnable samples that prove the stack works
+packages/       shared packages consumed by apps, templates, and experiments
+templates/      copy sources for new projects
+experiments/    generated experiments (created by the script above)
+docs/           governance, tech decisions, quality gates, template docs
+scripts/        repository maintenance scripts
+```
+
+## Included Packages
+
+### Apps (runnable samples)
+
+| App | Stack |
+| :--- | :--- |
+| `apps/web` | React + Vite SPA |
+| `apps/api` | Hono API |
+| `apps/fullstack` | React + Hono + shared contracts |
+
+### Shared Packages
+
+| Package | Purpose |
+| :--- | :--- |
+| `packages/ui` | shadcn/ui components, Tailwind CSS v4 tokens, theme support |
+| `packages/contracts` | Zod schemas and shared API contracts |
+| `packages/utils` | Runtime-neutral TypeScript utilities |
+| `packages/node-utils` | Node-only utilities |
+| `packages/test-utils` | Faker and MSW test helpers |
+| `packages/tsconfig` | Shared TypeScript configurations |
+
+## Commands
+
+### Workspace-wide
 
 | Command | Purpose |
 | :--- | :--- |
-| `pnpm dev` | Run workspace dev tasks |
-| `pnpm build` | Build workspace packages |
-| `pnpm typecheck` | Run TypeScript checks |
-| `pnpm lint` | Run Biome checks |
-| `pnpm test` | Run Vitest tests |
-| `pnpm test:coverage` | Run Vitest coverage |
-| `pnpm e2e` | Run Playwright paths |
-| `pnpm deps:check` | Run Knip and syncpack |
-| `pnpm check` | Local default quality gate |
-| `pnpm check:full` | Full CI-level quality gate |
+| `pnpm dev` | Run dev tasks |
+| `pnpm build` | Build all packages |
+| `pnpm typecheck` | TypeScript checks |
+| `pnpm lint` | Biome checks |
+| `pnpm format` | Biome auto-fix |
+| `pnpm test` | Vitest tests |
+| `pnpm test:coverage` | Vitest with coverage |
+| `pnpm e2e` | Playwright tests |
+| `pnpm deps:check` | Knip + syncpack |
+| `pnpm check` | Local quality gate |
+| `pnpm check:full` | CI-level quality gate |
+| `pnpm clean` | Remove generated artifacts |
+| `pnpm create:experiment` | Create experiment from template |
+| `pnpm changeset` | Create a changeset |
+| `pnpm release` | Version and publish |
+
+### Per-package
+
+```bash
+pnpm --filter <package-name> dev
+pnpm --filter <package-name> test
+pnpm --filter <package-name> build
+```
+
+## Quality Gates
+
+| Gate | What it runs |
+| :--- | :--- |
+| `pnpm check` | lint + typecheck + test |
+| `pnpm check:full` | lint + typecheck + test:coverage + build + e2e + deps:check + pack:check + smoke:create-experiment |
+
+Run `pnpm check:full` after changing root config, workspace dependencies, templates, shared packages, CI, hooks, or scripts.
+
+## Using as a GitHub Template
+
+After pushing to GitHub, mark the repository as a template:
+
+```bash
+gh repo edit --template
+```
+
+Or create the remote in one step:
+
+```bash
+gh repo create ts-foundry-template \
+  --public \
+  --source=. \
+  --remote=origin \
+  --push
+gh repo edit --template
+```
+
+## Non-Goals
+
+This template intentionally does **not** include:
+
+- Databases, ORMs, or queues
+- Deployment, Docker, or cloud infrastructure
+- SSR, Next.js, or NestJS
+- Authentication or authorization
+- Production release workflows
+
+These belong to concrete projects created from this template.
 
 ## Documentation
 
-- [GUIDE.md](./GUIDE.md): user guide for this template.
-- [docs/工程治理约定.md](./docs/工程治理约定.md): repository governance.
-- [docs/技术选型记录.md](./docs/技术选型记录.md): technology decisions.
-- [docs/环境配置清单.md](./docs/环境配置清单.md): toolchain inventory.
-- [docs/质量门禁.md](./docs/质量门禁.md): quality gates.
-- [docs/项目模板说明.md](./docs/项目模板说明.md): template descriptions.
-- [docs/TS Foundry Frontend UI Foundation 设计文档.md](./docs/TS%20Foundry%20Frontend%20UI%20Foundation%20设计文档.md): frontend UI foundation implementation specification.
-
-## Non-goals
-
-This template does not configure databases, deployment, Docker, SSR frameworks, Next.js, NestJS, production release workflows, or cloud infrastructure. Those belong to concrete projects created from this template.
+| Document | Contents |
+| :--- | :--- |
+| [GUIDE.md](./GUIDE.md) | Full user guide |
+| [Engineering Governance](./docs/工程治理约定.md) | Repository governance rules |
+| [Tech Decisions](./docs/技术选型记录.md) | Technology selection rationale |
+| [Toolchain Inventory](./docs/环境配置清单.md) | Environment and toolchain setup |
+| [Quality Gates](./docs/质量门禁.md) | Gate definitions and CI |
+| [Template Descriptions](./docs/项目模板说明.md) | Per-template details |
+| [UI Foundation Spec](./docs/TS%20Foundry%20Frontend%20UI%20Foundation%20设计文档.md) | Frontend UI foundation design |
 
 ## License
 
-Apache-2.0. See [LICENSE](./LICENSE).
+[Apache-2.0](./LICENSE)
