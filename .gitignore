@@ -12,5 +12,6 @@ dist-ssr
 .cache
 docs/tmp
 tmp
+external
 server/dist
 public/dist
