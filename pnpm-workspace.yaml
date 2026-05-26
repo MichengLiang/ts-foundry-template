@@ -3,6 +3,7 @@ packages:
   - "packages/*"
   - "templates/*"
   - "experiments/*"
+  - "projects/*"
 
 catalog:
   "@radix-ui/react-checkbox": "^1.3.3"

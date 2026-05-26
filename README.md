@@ -72,6 +72,7 @@ apps/           runnable samples that prove the stack works
 packages/       shared packages consumed by apps, templates, and experiments
 templates/      copy sources for new projects
 experiments/    generated experiments (created by the script above)
+projects/       formal projects promoted from experiments for long-term maintenance
 docs/           governance, tech decisions, quality gates, template docs
 scripts/        repository maintenance scripts
 ```

@@ -52,6 +52,7 @@
 		"smoke:create-experiment": "vitest run scripts/create-experiment.test.ts --pool=forks",
 		"clean": "turbo run clean && rm -rf .turbo coverage playwright-report test-results",
 		"create:experiment": "tsx scripts/create-experiment.ts",
+		"instantiate": "tsx scripts/instantiate-monorepo.ts",
 		"changeset": "changeset",
 		"release": "changeset version && changeset publish"
 	},

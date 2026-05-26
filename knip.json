@@ -2,11 +2,14 @@
 	"$schema": "https://unpkg.com/knip@6/schema.json",
 	"entry": [
 		"scripts/create-experiment.ts",
+		"scripts/instantiate-monorepo.ts",
 		"apps/*/src/main.tsx",
 		"apps/*/src/index.ts",
 		"packages/*/src/index.ts",
 		"templates/*/src/main.tsx",
-		"templates/*/src/index.ts"
+		"templates/*/src/index.ts",
+		"projects/*/src/main.tsx",
+		"projects/*/src/index.ts"
 	],
 	"project": [
 		"**/*.{ts,tsx}",

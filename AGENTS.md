@@ -6,6 +6,7 @@
 - `external/` 只用于临时参考，不属于模板、应用、共享包或实验项目；不要混入 `experiments/` 或根目录。
 - 克隆外部仓库优先使用 `--depth 1`，除非确实需要完整历史。
 - 成形应用放入 `apps/`，可复用包放入 `packages/`，可复制起点放入 `templates/`。
+- 实验探索完成后，正式项目放入 `projects/` 进行长期维护。
 - `packages/*` 不得依赖 `apps/*` 或 `experiments/*`。
 - 纯后端和 CLI 不引入 React、Tailwind 或浏览器测试依赖。
 - 前端和 fullstack 默认使用 React、Vite、TanStack Router/Query、React Hook Form、Zod、Tailwind CSS v4、shadcn/ui、`@ts-foundry/ui`、Motion。

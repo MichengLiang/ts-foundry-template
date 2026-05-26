@@ -65,11 +65,14 @@ apps/         runnable samples shipped with the mother template
 packages/     shared packages used by apps, templates, and experiments
 templates/    copy sources for future projects
 experiments/  generated experiments created from templates
+projects/     formal projects promoted from experiments for long-term maintenance
 docs/         governance, decisions, quality gates, and template notes
 scripts/      repository maintenance scripts
 ```
 
 The structure intentionally contains both `apps/` and `templates/`. `apps/` proves the stack works in real runnable samples. `templates/` proves new projects can be copied from stable sources.
+
+`experiments/` is the default landing zone for new ideas, short-term validation, and exploratory work. `projects/` is where experiments go after they mature — cleaned up, refactored, and committed to long-term maintenance.
 
 ## 6. Choosing a Template
 
@@ -374,6 +377,7 @@ Most work starts in `experiments/`. Promote only when the object becomes stable:
 - Promote a stable application to `apps/`.
 - Promote reusable source code to `packages/`.
 - Promote a reusable starting point to `templates/`.
+- Promote a mature experiment to `projects/` when it is ready for long-term maintenance.
 
 Before promotion, confirm:
 
