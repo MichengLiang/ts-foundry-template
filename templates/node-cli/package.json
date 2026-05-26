@@ -5,7 +5,7 @@
 	"type": "module",
 	"types": "./dist/index.d.mts",
 	"bin": {
-		"ts-foundry-cli": "./dist/index.mjs"
+		"foo": "./dist/bin.mjs"
 	},
 	"exports": {
 		".": {
@@ -19,12 +19,18 @@
 	],
 	"scripts": {
 		"build": "tsdown",
-		"dev": "tsx src/index.ts",
+		"dev": "tsx src/bin.ts",
 		"typecheck": "tsc --noEmit",
 		"test": "vitest run",
 		"test:coverage": "vitest run --coverage",
 		"pack:check": "pnpm build && publint && attw --pack . --profile esm-only",
 		"clean": "rm -rf dist coverage"
+	},
+	"dependencies": {
+		"commander": "catalog:",
+		"globby": "catalog:",
+		"smol-toml": "catalog:",
+		"zod": "catalog:"
 	},
 	"devDependencies": {
 		"@arethetypeswrong/cli": "catalog:",

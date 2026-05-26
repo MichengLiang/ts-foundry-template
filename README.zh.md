@@ -62,8 +62,14 @@ pnpm create:experiment ts-lib text-utils
 | React SPA、UI 演示、前端工具 | `react-spa` | `pnpm create:experiment react-spa <name>` |
 | Hono API、Webhook、后端服务 | `hono-api` | `pnpm create:experiment hono-api <name>` |
 | React + Hono 全栈（共享合约） | `fullstack` | `pnpm create:experiment fullstack <name>` |
-| Node CLI 工具 | `node-cli` | `pnpm create:experiment node-cli <name>` |
+| 项目型 Node CLI 工具 | `node-cli` | `pnpm create:experiment node-cli <name>` |
 | 可复用 TypeScript 库 | `ts-lib` | `pnpm create:experiment ts-lib <name>` |
+
+### `node-cli`
+
+`node-cli` 是项目型 CLI 模板，不是 hello world 参数解析示例。它沉淀长期维护的开发者工具反复使用的行为：`init` 创建隐藏的 `.foo/config.toml` 项目语境；普通命令通过 `--project <path>` 指定项目根，或从当前目录向上寻找项目；扫描源通过 TOML 的 `id/root/include/exclude/scanner` 声明；文件发现默认尊重 `.gitignore`；命令结果同时提供稳定的人类输出和 JSON 投影。
+
+该模板适合文件处理器、仓库分析器、文档索引器、迁移工具和自动化 CLI。这些工具在执行业务逻辑之前，都需要可重复的项目发现和配置解释。模板内置的 scanner registry 保持克制：它证明 discovered files 如何流入 `text` 和 `python` scanner，具体工具只替换 scanner 实现，不重新设计项目查找、配置加载、glob 发现、错误码和包边界。
 
 ## 目录结构
 

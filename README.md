@@ -62,8 +62,14 @@ Each template is a copyable starting point for a specific project shape. Choose 
 | React SPA, UI demo, frontend tool | `react-spa` | `pnpm create:experiment react-spa <name>` |
 | Hono API, webhook, backend service | `hono-api` | `pnpm create:experiment hono-api <name>` |
 | React + Hono fullstack with shared contracts | `fullstack` | `pnpm create:experiment fullstack <name>` |
-| Node CLI tool | `node-cli` | `pnpm create:experiment node-cli <name>` |
+| Project-oriented Node CLI tool | `node-cli` | `pnpm create:experiment node-cli <name>` |
 | Reusable TypeScript library | `ts-lib` | `pnpm create:experiment ts-lib <name>` |
+
+### `node-cli`
+
+`node-cli` is a project-oriented CLI template rather than a hello-world argument parser. It captures the shared behavior used by long-lived developer tools: `init` creates a hidden `.foo/config.toml` project context, regular commands either use `--project <path>` or search upward from the current directory, sources are declared with TOML `id/root/include/exclude/scanner` entries, discovery respects `.gitignore` by default, and command results have stable human and JSON projections.
+
+The template is useful for file processors, repository analyzers, documentation indexers, migration tools, and automation CLIs that need repeatable project discovery before they run business logic. Its scanner registry is deliberately small: the template proves how discovered files flow into `text` and `python` scanners, while concrete tools replace scanner implementations without redesigning project lookup, config loading, glob discovery, error codes, or package boundaries.
 
 ## Repository Layout
 
