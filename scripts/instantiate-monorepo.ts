@@ -178,10 +178,7 @@ if (existsSync(templatesDir)) {
 		>;
 
 		if (typeof pkg.name === "string") {
-			pkg.name = pkg.name.replace(
-				"@ts-foundry-template/",
-				"@ts-foundry/",
-			);
+			pkg.name = pkg.name.replace("@ts-foundry-template/", "@ts-foundry/");
 		}
 
 		writeFileSync(pkgPath, `${JSON.stringify(pkg, null, "\t")}\n`);
@@ -220,8 +217,6 @@ rewriteTestDescriptions(join(target, "templates"));
 // Markdown & text files: replace identity strings
 // ---------------------------------------------------------------------------
 
-const displayNameLower = displayName.toLowerCase();
-
 const textReplacements: Array<[RegExp, string]> = [
 	// Full display name (case-sensitive, do this before the lowercase version)
 	[/TS Foundry Template/g, displayName],
@@ -251,7 +246,11 @@ function walkAndRewrite(dir: string) {
 
 		if (stat.isDirectory()) {
 			// Skip directories we already handle separately
-			if (entry === "templates" || entry === "node_modules" || entry === ".git") {
+			if (
+				entry === "templates" ||
+				entry === "node_modules" ||
+				entry === ".git"
+			) {
 				continue;
 			}
 
