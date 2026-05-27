@@ -11,6 +11,9 @@
 		"projects/*/src/main.tsx",
 		"projects/*/src/index.ts"
 	],
+	"ignoreIssues": {
+		"templates/**": ["exports", "types"]
+	},
 	"project": [
 		"**/*.{ts,tsx}",
 		"!**/dist/**",
